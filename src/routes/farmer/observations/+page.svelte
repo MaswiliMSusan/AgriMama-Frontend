@@ -1,6 +1,6 @@
 <script>
   import {
-    Sprout, Home, MessageCircle, Leaf, CloudSun, ShoppingBasket, BookOpen,
+    Sprout, Home, MessageCircle, MessageSquare, Leaf, CloudSun, ShoppingBasket, BookOpen,
     MapPinned, Menu, X, Bell, ArrowLeft, Plus, RefreshCw, AlertCircle,
     CheckCircle2, ChevronRight, CalendarDays, Send, ClipboardList, CircleHelp
   } from "lucide-svelte";
@@ -31,6 +31,7 @@
     { label: "Farms", href: "/farmer/farms", icon: MapPinned },
     { label: "Crops & Crop Cycles", href: "/farmer/crop-cycles", icon: Sprout },
     { label: "Observations", href: "/farmer/observations", icon: BookOpen },
+    { label: "Conversations", href: "/farmer/conversations", icon: MessageSquare },
     { label: "Crop Advice", href: "/farmer/crops", icon: Leaf },
     { label: "Weather", href: "/farmer/weather", icon: CloudSun },
     { label: "Market Prices", href: "/farmer/market", icon: ShoppingBasket },

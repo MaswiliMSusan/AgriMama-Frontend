@@ -1,190 +1,60 @@
-
 <script>
   import {
     Sprout,
     CloudSun,
     MessageCircle,
     TrendingUp,
-    Bell,
-    Home,
     Leaf,
     ShoppingBasket,
-    User,
     MapPin,
-    MapPinned,
     ArrowRight,
     Send,
-    Menu,
-    X,
     Sun,
     BookOpen,
+    Bell,
   } from "lucide-svelte";
 
   import { getAuthState } from "#lib/stores/auth.svelte.js";
 
   const auth = getAuthState();
 
-  let mobileMenuOpen = $state(false);
   let message = $state("");
-  let notificationCount = 2;
   let feedback = $state("");
-
-  const navigation = [
-    { label: "Overview", href: "/farmer", icon: Home },
-    { label: "AI Assistant", href: "/farmer/assistant", icon: MessageCircle },
-    { label: "Farms", href: "/farmer/farms", icon: MapPinned },
-    { label: "Crops & Crop Cycles", href: "/farmer/crop-cycles", icon: Sprout },
-    { label: "Observations", href: "/farmer/observations", icon: BookOpen },
-    { label: "Crop Advice", href: "/farmer/crops", icon: Leaf },
-    { label: "Weather", href: "/farmer/weather", icon: CloudSun },
-    { label: "Market Prices", href: "/farmer/market", icon: ShoppingBasket },
-  ];
 
   const quickQuestions = [
     "How do I control maize pests?",
     "When should I plant beans?",
     "How can I improve soil fertility?",
   ];
-  
+
   /**
- * @param {string} question
- */
+   * @param {string} question
+   */
   function selectQuestion(question) {
     message = question;
   }
-  
+
   /**
- * @param {SubmitEvent} event
- */
+   * @param {SubmitEvent} event
+   */
   function handleAsk(event) {
     event.preventDefault();
 
     if (!message.trim()) return;
 
-    feedback = "Your question is ready. AI Assistant integration is the next step.";
-  }
-
-  async function handleLogout() {
-    try {
-      await auth.logout();
-    } finally {
-      window.location.href = "/login";
-    }
+    feedback = "Your question is ready. Open AI Assistant to start a conversation.";
   }
 </script>
 
 <svelte:head>
-  <title>Farmer Dashboard | AgriMama</title>
   <meta
     name="description"
     content="Your AgriMama farming dashboard."
   />
 </svelte:head>
 
-<div class="farmer-app">
-  <aside class:open={mobileMenuOpen} class="sidebar">
-    <div class="brand">
-      <div class="brand-icon">
-        <Sprout size={25} />
-      </div>
-      <div>
-        <h1>AgriMama</h1>
-        <span>Farmer Portal</span>
-      </div>
-      <button
-        class="close-menu"
-        onclick={() => (mobileMenuOpen = false)}
-        aria-label="Close menu"
-      >
-        <X size={20} />
-      </button>
-    </div>
+<div class="dashboard-content">
 
-    <div class="nav-label">MENU</div>
-
-    <nav>
-      {#each navigation as item}
-        <a
-          href={item.href}
-          class:active={item.label === "Overview"}
-          onclick={() => (mobileMenuOpen = false)}
-        >
-          <item.icon size={19} />
-          <span>{item.label}</span>
-          {#if item.label === "AI Assistant"}
-            <span class="new-tag">AI</span>
-          {/if}
-        </a>
-      {/each}
-    </nav>
-
-    <div class="sidebar-bottom">
-      <div class="help-card">
-        <div class="help-icon">
-          <MessageCircle size={20} />
-        </div>
-        <strong>Need help?</strong>
-        <p>We're here to support your farming journey.</p>
-        <a href="/farmer/assistant">
-          Get assistance <ArrowRight size={14} />
-        </a>
-      </div>
-
-      <button class="profile" onclick={handleLogout}>
-        <div class="avatar">
-          {auth.user?.name?.charAt(0)?.toUpperCase() || "F"}
-        </div>
-        <div class="profile-info">
-          <strong>{auth.user?.name || "Farmer"}</strong>
-          <span>Farmer account</span>
-        </div>
-        <span class="logout-label">Logout</span>
-      </button>
-    </div>
-  </aside>
-
-  {#if mobileMenuOpen}
-    <button
-      class="mobile-overlay"
-      aria-label="Close navigation"
-      onclick={() => (mobileMenuOpen = false)}
-    ></button>
-  {/if}
-
-  <main class="main-content">
-    <header class="topbar">
-      <button
-        class="menu-button"
-        onclick={() => (mobileMenuOpen = true)}
-        aria-label="Open navigation"
-      >
-        <Menu size={23} />
-      </button>
-
-      <div class="breadcrumb">
-        <span>Farmer Portal</span>
-        <span>/</span>
-        <strong>Overview</strong>
-      </div>
-
-      <div class="topbar-actions">
-        <button class="notification-button" aria-label="Notifications">
-          <Bell size={20} />
-          {#if notificationCount > 0}
-            <span class="notification-dot"></span>
-          {/if}
-        </button>
-
-        <div class="topbar-user">
-          <div class="avatar small">
-            {auth.user?.name?.charAt(0)?.toUpperCase() || "F"}
-          </div>
-          <span>{auth.user?.name || "Farmer"}</span>
-        </div>
-      </div>
-    </header>
-
-    <div class="page-content">
       <section class="welcome-section">
         <div>
           <div class="welcome-label">
@@ -345,13 +215,6 @@
           </div>
         </div>
       </section>
-
-      <footer class="footer">
-        <span>© {new Date().getFullYear()} AgriMama</span>
-        <span>Growing smarter, together. 🌱</span>
-      </footer>
-    </div>
-  </main>
 </div>
 
 <style>
@@ -1016,16 +879,6 @@
     line-height: 1.7;
   }
 
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 25px 0 10px;
-    margin-top: 20px;
-    border-top: 1px solid #e9eee8;
-    color: #9aa49c;
-    font-size: 10px;
-  }
 
   .mobile-overlay {
     display: none;

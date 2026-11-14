@@ -2,7 +2,7 @@
   import {
     Sprout, Home, MessageCircle, Leaf, CloudSun, ShoppingBasket, BookOpen,
     MapPinned, Menu, X, Bell, ArrowLeft, Plus, RefreshCw,
-    AlertCircle, CheckCircle2, ChevronRight, CalendarDays, Wheat
+    AlertCircle, CheckCircle2, ChevronRight, CalendarDays, Wheat, MessageSquare
   } from "lucide-svelte";
   import { getAuthState } from "#lib/stores/auth.svelte.js";
   import { api } from "#lib/services/api.js";
@@ -32,6 +32,7 @@
     { label: "Farms", href: "/farmer/farms", icon: MapPinned },
     { label: "Crops & Crop Cycles", href: "/farmer/crop-cycles", icon: Sprout },
     { label: "Observations", href: "/farmer/observations", icon: BookOpen },
+    { label: "Conversations", href: "/farmer/conversations", icon: MessageSquare },
     { label: "Crop Advice", href: "/farmer/crops", icon: Leaf },
     { label: "Weather", href: "/farmer/weather", icon: CloudSun },
     { label: "Market Prices", href: "/farmer/market", icon: ShoppingBasket },
