@@ -3,20 +3,8 @@
   import { page } from "$app/state";
 
   import {
-    Sprout,
-    CloudSun,
-    MessageCircle,
-    MessageSquare,
-    TrendingUp,
-    Bell,
-    Home,
-    Leaf,
-    ShoppingBasket,
-    MapPinned,
-    ArrowRight,
-    Menu,
-    X,
-    BookOpen,
+    Sprout, MessageCircle, MessageSquare, Home, MapPinned,
+    Menu, X, BookOpen, ChevronDown, LogOut,
   } from "lucide-svelte";
 
   import { getAuthState } from "#lib/stores/auth.svelte.js";
@@ -26,7 +14,7 @@
   const auth = getAuthState();
 
   let mobileMenuOpen = $state(false);
-  let notificationCount = 2;
+  let accountMenuOpen = $state(false);
 
   const navigation = [
     { label: "Overview", href: "/farmer", icon: Home },
@@ -35,9 +23,6 @@
     { label: "Crops & Crop Cycles", href: "/farmer/crop-cycles", icon: Sprout },
     { label: "Observations", href: "/farmer/observations", icon: BookOpen },
     { label: "Conversations", href: "/farmer/conversations", icon: MessageSquare },
-    { label: "Crop Advice", href: "/farmer/crops", icon: Leaf },
-    { label: "Weather", href: "/farmer/weather", icon: CloudSun },
-    { label: "Market Prices", href: "/farmer/market", icon: ShoppingBasket },
   ];
 
   let currentSection = $derived(
@@ -50,9 +35,11 @@
 
   afterNavigate(() => {
     mobileMenuOpen = false;
+    accountMenuOpen = false;
   });
 
   async function handleLogout() {
+    accountMenuOpen = false;
     try {
       await auth.logout();
     } finally {
@@ -110,33 +97,7 @@
       {/each}
     </nav>
 
-    <div class="sidebar-bottom">
-      <div class="help-card">
-        <div class="help-icon">
-          <MessageCircle size={20} />
-        </div>
 
-        <strong>Need help?</strong>
-        <p>We're here to support your farming journey.</p>
-
-        <a href="/farmer/assistant">
-          Get assistance <ArrowRight size={14} />
-        </a>
-      </div>
-
-      <button class="profile" onclick={handleLogout}>
-        <div class="avatar">
-          {auth.user?.name?.charAt(0)?.toUpperCase() || "F"}
-        </div>
-
-        <div class="profile-info">
-          <strong>{auth.user?.name || "Farmer"}</strong>
-          <span>Farmer account</span>
-        </div>
-
-        <span class="logout-label">Logout</span>
-      </button>
-    </div>
   </aside>
 
   {#if mobileMenuOpen}
@@ -164,18 +125,40 @@
       </div>
 
       <div class="topbar-actions">
-        <button class="notification-button" aria-label="Notifications">
-          <Bell size={20} />
-          {#if notificationCount > 0}
-            <span class="notification-dot"></span>
-          {/if}
-        </button>
+        <div class="account-menu">
+          <button
+            class="account-trigger"
+            type="button"
+            aria-label="Farmer account menu"
+            aria-expanded={accountMenuOpen}
+            aria-controls="farmer-account-dropdown"
+            onclick={() => (accountMenuOpen = !accountMenuOpen)}
+          >
+            <div class="avatar small">
+              {auth.user?.name?.charAt(0)?.toUpperCase() || "F"}
+            </div>
+            <span class="account-name">{auth.user?.name || "Farmer"}</span>
+            <ChevronDown size={17} class={accountMenuOpen ? "rotated" : ""} />
+          </button>
 
-        <div class="topbar-user">
-          <div class="avatar small">
-            {auth.user?.name?.charAt(0)?.toUpperCase() || "F"}
-          </div>
-          <span>{auth.user?.name || "Farmer"}</span>
+          {#if accountMenuOpen}
+            <button
+              class="account-dismiss"
+              type="button"
+              aria-label="Close account menu"
+              onclick={() => (accountMenuOpen = false)}
+            ></button>
+            <div class="account-dropdown" id="farmer-account-dropdown">
+              <div class="account-summary">
+                <strong>{auth.user?.name || "Farmer"}</strong>
+                <span>Farmer account</span>
+              </div>
+              <button type="button" class="logout-action" onclick={handleLogout}>
+                <LogOut size={18} />
+                <span>Logout</span>
+              </button>
+            </div>
+          {/if}
         </div>
       </div>
     </header>
@@ -299,62 +282,6 @@
     font-size: 9px;
   }
 
-  .sidebar-bottom {
-    margin-top: auto;
-  }
-
-  .help-card {
-    padding: 17px;
-    margin-bottom: 18px;
-    border-radius: 12px;
-    background: #f2f7f0;
-  }
-
-  .help-icon {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    margin-bottom: 12px;
-    border-radius: 9px;
-    background: white;
-    color: #28794b;
-  }
-
-  .help-card strong {
-    font-size: 13px;
-  }
-
-  .help-card p {
-    margin: 7px 0 12px;
-    color: #829087;
-    font-size: 11px;
-    line-height: 1.6;
-  }
-
-  .help-card a {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    color: #28794b;
-    font-size: 11px;
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .profile {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    width: 100%;
-    padding: 12px 5px 0;
-    border: 0;
-    border-top: 1px solid #edf0ed;
-    background: transparent;
-    text-align: left;
-    cursor: pointer;
-  }
-
   .avatar {
     display: grid;
     place-items: center;
@@ -366,32 +293,6 @@
     color: #28794b;
     font-size: 15px;
     font-weight: 750;
-  }
-
-  .profile-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
-  }
-
-  .profile-info strong {
-    overflow: hidden;
-    color: #34483a;
-    font-size: 11px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .profile-info span {
-    color: #929d94;
-    font-size: 10px;
-  }
-
-  .logout-label {
-    margin-left: auto;
-    color: #a65d5d;
-    font-size: 10px;
   }
 
   .main-content {
@@ -429,40 +330,6 @@
     display: flex;
     align-items: center;
     gap: 23px;
-  }
-
-  .notification-button {
-    position: relative;
-    border: 0;
-    background: transparent;
-    color: #748178;
-    cursor: pointer;
-  }
-
-  .notification-dot {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 7px;
-    height: 7px;
-    border: 1px solid white;
-    border-radius: 50%;
-    background: #e36b58;
-  }
-
-  .topbar-user {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    color: #526357;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .avatar.small {
-    width: 33px;
-    height: 33px;
-    font-size: 12px;
   }
 
   .menu-button {
@@ -539,10 +406,6 @@
       padding: 0 17px;
     }
 
-    .topbar-user span {
-      display: none;
-    }
-
     .topbar-actions {
       gap: 15px;
     }
@@ -555,4 +418,123 @@
       flex-direction: column;
     }
   }
+
+  /* =========================================
+     ACCESSIBILITY: SHARED FARMER PORTAL SHELL
+     Larger typography and stronger contrast
+     ========================================= */
+
+  :global(body) {
+    color: #26382c;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .brand h1 {
+    color: #173f28;
+    font-size: 21px;
+  }
+
+  .brand span {
+    color: #526357;
+    font-size: 13px;
+  }
+
+  .nav-label {
+    color: #526357;
+    font-size: 12px;
+  }
+
+  nav a {
+    color: #34483a;
+    font-size: 15px;
+    font-weight: 650;
+    padding: 14px 12px;
+  }
+
+  nav a:hover,
+  nav a.active {
+    color: #145c32;
+  }
+
+  .new-tag {
+    font-size: 11px;
+  }
+
+  .breadcrumb {
+    color: #526357;
+    font-size: 14px;
+  }
+
+  .breadcrumb strong {
+    color: #26382c;
+  }
+
+  .menu-button,
+  .close-menu {
+    color: #405448;
+  }
+
+  .footer {
+    color: #526357;
+    font-size: 12px;
+  }
+
+  /* Clear keyboard focus */
+  nav a:focus-visible,
+  button:focus-visible,
+  .account-trigger:focus-visible,
+  .logout-action:focus-visible {
+    outline: 3px solid #25834a;
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 760px) {
+    nav a {
+      font-size: 16px;
+      padding: 15px 12px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+    }
+
+  }
+
+  /* Prototype account dropdown */
+  .account-menu { position: relative; }
+  .account-trigger {
+    display: flex; align-items: center; gap: 10px;
+    padding: 6px 9px; border: 1px solid transparent;
+    border-radius: 10px; background: transparent;
+    color: #26382c; font-size: 14px; font-weight: 650;
+    cursor: pointer;
+  }
+  .account-trigger:hover,
+  .account-trigger[aria-expanded="true"] { background: #edf6ee; border-color: #dce8dc; }
+  .account-name { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rotated { transform: rotate(180deg); }
+  .account-dismiss { position: fixed; inset: 0; z-index: 39; border: 0; background: transparent; cursor: default; }
+  .account-dropdown {
+    position: absolute; top: calc(100% + 8px); right: 0; z-index: 40;
+    width: 230px; padding: 8px; border: 1px solid #dce8dc;
+    border-radius: 12px; background: white;
+    box-shadow: 0 12px 28px rgba(18, 50, 28, .13);
+  }
+  .account-summary { display: flex; flex-direction: column; gap: 3px; padding: 12px; border-bottom: 1px solid #e7eee7; }
+  .account-summary strong { color: #173f28; font-size: 15px; overflow-wrap: anywhere; }
+  .account-summary span { color: #526357; font-size: 13px; }
+  .logout-action {
+    display: flex; align-items: center; gap: 10px;
+    width: 100%; min-height: 44px; padding: 10px 12px;
+    border: 0; border-radius: 8px; background: transparent;
+    color: #933b3b; font-size: 15px; font-weight: 650;
+    text-align: left; cursor: pointer;
+  }
+  .logout-action:hover { background: #fff1f0; }
+  @media (max-width: 760px) {
+    .account-name { max-width: 110px; }
+    .account-trigger { gap: 6px; padding: 5px; }
+  }
+
 </style>
