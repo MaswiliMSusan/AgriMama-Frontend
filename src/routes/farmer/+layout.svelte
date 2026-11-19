@@ -43,7 +43,7 @@
     try {
       await auth.logout();
     } finally {
-      window.location.href = "/login";
+      window.location.href = "/";
     }
   }
 </script>
@@ -164,7 +164,7 @@
     </header>
 
     <div class="page-content">
-      {@render children()}
+      {@render children?.()}
 
       <footer class="footer">
         <span>© {new Date().getFullYear()} AgriMama</span>
@@ -172,6 +172,13 @@
       </footer>
     </div>
   </main>
+
+  {#if page.url.pathname !== "/farmer/assistant"}
+    <a class="ask-agrimama" href="/farmer/assistant" aria-label="Ask AgriMama">
+      <MessageCircle size={19} />
+      <span>Ask AgriMama</span>
+    </a>
+  {/if}
 </div>
 
 <style>
@@ -535,6 +542,50 @@
   @media (max-width: 760px) {
     .account-name { max-width: 110px; }
     .account-trigger { gap: 6px; padding: 5px; }
+  }
+
+
+  .ask-agrimama {
+    position: fixed;
+    right: 28px;
+    bottom: 26px;
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 48px;
+    padding: 0 20px;
+    border: 1px solid #1f6d40;
+    border-radius: 999px;
+    background: #28794b;
+    box-shadow: 0 8px 22px rgba(25, 76, 43, 0.22);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .ask-agrimama:hover {
+    background: #1f6d40;
+    box-shadow: 0 10px 26px rgba(25, 76, 43, 0.28);
+    transform: translateY(-2px);
+  }
+
+  .ask-agrimama:focus-visible {
+    outline: 3px solid #8bc69b;
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 640px) {
+    .ask-agrimama {
+      right: 16px;
+      bottom: 16px;
+      min-height: 46px;
+      padding: 0 16px;
+      font-size: 13px;
+    }
   }
 
 </style>

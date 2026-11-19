@@ -39,29 +39,53 @@ export function createAuthState() {
     error: null,
   });
 
-  async function initialize() {
-    if (state.isInitialized) return;
+  // Prevent multiple simultaneous session initialization requests.
+  let initializationPromise = null;
 
-    state.isLoading = true;
-    state.error = null;
+  /**
+   * Initialize authentication from the existing backend session.
+   * Use force: true to explicitly refresh the session.
+   *
+   * @param {{ force?: boolean }} [options]
+   */
+  async function initialize({ force = false } = {}) {
+    if (state.isInitialized && !force) return;
+
+    // Reuse an existing initialization request.
+    if (initializationPromise) {
+      return initializationPromise;
+    }
+
+    initializationPromise = (async () => {
+      state.isLoading = true;
+      state.error = null;
+
+      try {
+        const response = await authService.getCurrentUser();
+        state.user = response.user || null;
+      } catch (error) {
+        if (error instanceof ApiError && error.status === 401) {
+          state.user = null;
+        } else {
+          state.error = getErrorMessage(error);
+          state.user = null;
+        }
+      } finally {
+        state.isLoading = false;
+        state.isInitialized = true;
+      }
+    })();
 
     try {
-      const response = await authService.getCurrentUser();
-      state.user = response.user || null;
-    } catch (error) {
-      if (error instanceof ApiError && error.status === 401) {
-        state.user = null;
-      } else {
-        state.error = getErrorMessage(error);
-        state.user = null;
-      }
+      await initializationPromise;
     } finally {
-      state.isLoading = false;
-      state.isInitialized = true;
+      initializationPromise = null;
     }
   }
 
   /**
+   * Staff login.
+   *
    * @param {string} email
    * @param {string} password
    */
@@ -70,7 +94,10 @@ export function createAuthState() {
 
     try {
       const response = await authService.staffLogin(email, password);
+
       state.user = response.user || null;
+      state.isInitialized = true;
+
       return response;
     } catch (error) {
       state.error = getErrorMessage(error);
@@ -79,6 +106,8 @@ export function createAuthState() {
   }
 
   /**
+   * Request farmer OTP.
+   *
    * @param {string} phone
    */
   async function requestFarmerOtp(phone) {
@@ -93,6 +122,8 @@ export function createAuthState() {
   }
 
   /**
+   * Verify farmer OTP and establish the farmer session.
+   *
    * @param {string} phone
    * @param {string} otp
    */
@@ -101,7 +132,10 @@ export function createAuthState() {
 
     try {
       const response = await authService.verifyFarmerOtp(phone, otp);
+
       state.user = response.user || null;
+      state.isInitialized = true;
+
       return response;
     } catch (error) {
       state.error = getErrorMessage(error);
@@ -109,6 +143,9 @@ export function createAuthState() {
     }
   }
 
+  /**
+   * Logout the current user.
+   */
   async function logout() {
     state.error = null;
 
@@ -116,10 +153,14 @@ export function createAuthState() {
       await authService.logout();
     } finally {
       state.user = null;
+      state.isLoading = false;
+      state.isInitialized = true;
     }
   }
 
   /**
+   * Check whether the current user has one of the specified roles.
+   *
    * @param {...string} roles
    */
   function hasRole(...roles) {
@@ -156,6 +197,9 @@ export function createAuthState() {
   };
 }
 
+/**
+ * Get the authentication state from Svelte context.
+ */
 export function getAuthState() {
   const auth = getContext(AUTH_CONTEXT);
 

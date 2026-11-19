@@ -1,417 +1,728 @@
+<svelte:head>
+  <title>AgriMama | Grow with confidence</title>
+  <meta
+    name="description"
+    content="AgriMama is an AI-powered farming companion supporting women in agriculture with practical guidance and farm-management tools to make informed decisions and work towards better yields."
+  />
+  <meta name="theme-color" content="#f7f9f6" />
+</svelte:head>
 
 <script>
-  import {
-    LayoutDashboard,
-    Users,
-    Sprout,
-    ClipboardList,
-    MessageCircle,
-    CloudSun,
-    BarChart3,
-    Settings,
-    Menu,
-    X,
-    ArrowUpRight,
-    Leaf
-  } from 'lucide-svelte';
-
-  let sidebarOpen = $state(false);
-
-  const navigation = [
-    { label: 'Overview', icon: LayoutDashboard, href: '/' },
-    { label: 'Farmers', icon: Users, href: '/farmers' },
-    { label: 'Farms & Crops', icon: Sprout, href: '/farms' },
-    { label: 'Observations', icon: ClipboardList, href: '/observations' },
-    { label: 'Recommendations', icon: Leaf, href: '/recommendations' },
-    { label: 'Conversations', icon: MessageCircle, href: '/conversations' },
-    { label: 'Weather', icon: CloudSun, href: '/weather' },
-    { label: 'Analytics', icon: BarChart3, href: '/analytics' },
-    { label: 'Settings', icon: Settings, href: '/settings' }
-  ];
-
-  const stats = [
-    { label: 'Registered Farmers', icon: Users },
-    { label: 'Active Crop Cycles', icon: Sprout },
-    { label: 'Farmer Observations', icon: ClipboardList },
-    { label: 'Recommendations', icon: Leaf }
+  const highlights = [
+    {
+      number: "01",
+      title: "Know your farm",
+      description: "Keep your farms, crops and growing seasons organised."
+    },
+    {
+      number: "02",
+      title: "Make informed decisions",
+      description: "Record what is happening in your fields and follow progress."
+    },
+    {
+      number: "03",
+      title: "Get guidance when you need it",
+      description: "Ask AgriMama questions and explore practical next steps."
+    }
   ];
 </script>
 
-<svelte:head>
-  <title>AgriMama | Dashboard</title>
-  <meta
-    name="description"
-    content="AgriMama agricultural advisory dashboard"
-  />
-</svelte:head>
-
-<div class="app-shell">
-  {#if sidebarOpen}
-    <button
-      class="overlay"
-      aria-label="Close navigation"
-      onclick={() => (sidebarOpen = false)}
-    ></button>
-  {/if}
-
-  <aside class:open={sidebarOpen} class="sidebar">
-    <div class="brand">
-      <div class="brand-icon">
-        <Sprout size={25} />
-      </div>
-      <div>
-        <strong>AgriMama</strong>
-        <small>Farmer Advisory Platform</small>
-      </div>
-      <button
-        class="close-sidebar"
-        aria-label="Close menu"
-        onclick={() => (sidebarOpen = false)}
-      >
-        <X size={20} />
-      </button>
-    </div>
-
-    <div class="nav-caption">WORKSPACE</div>
+<div class="landing">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="AgriMama home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" fill="none">
+          <path d="M20 33V17" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M20 22C9 22 6 15 7 7c9-1 17 3 17 12" fill="currentColor" opacity=".18"/>
+          <path d="M20 22C9 22 6 15 7 7c9-1 17 3 17 12" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+          <path d="M20 17c1-8 7-12 15-11 0 8-4 14-15 14" fill="currentColor" opacity=".18"/>
+          <path d="M20 17c1-8 7-12 15-11 0 8-4 14-15 14" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="brand-name">Agri<span>Mama</span></span>
+    </a>
 
     <nav aria-label="Main navigation">
-      {#each navigation as item}
-        <a
-          href={item.href}
-          class:active={item.href === '/'}
-          onclick={() => (sidebarOpen = false)}
-        >
-          <item.icon size={19} strokeWidth={1.8} />
-          <span>{item.label}</span>
-        </a>
-      {/each}
+      <a class="login-button" href="/login">
+        Login
+        <svg viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
     </nav>
+  </header>
 
-    <div class="sidebar-footer">
-      <div class="footer-icon"><Leaf size={20} /></div>
-      <div>
-        <strong>Growing together</strong>
-        <p>Better information, stronger harvests.</p>
-      </div>
-    </div>
-  </aside>
-
-  <div class="main-area">
-    <header class="topbar">
-      <button
-        class="menu-button"
-        aria-label="Open navigation"
-        onclick={() => (sidebarOpen = true)}
-      >
-        <Menu size={23} />
-      </button>
-
-      <div class="breadcrumb">Workspace <span>/</span> Overview</div>
-
-      <div class="topbar-right">
-        <span class="environment">Development</span>
-        <div class="avatar">AM</div>
-      </div>
-    </header>
-
-    <main class="content">
-      <div class="page-heading">
-        <div>
-          <div class="eyebrow">AGRIMAMA OVERVIEW</div>
-          <h1>Dashboard</h1>
-          <p>Monitor farmer engagement, crop activity and agricultural advisory services.</p>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-line"></span>
+          YOUR FARM. YOUR FUTURE.
         </div>
-        <span class="status-pill">
-          <span class="status-dot"></span>
-          Development environment
-        </span>
+
+        <h1>Grow smarter.<br /><span>Harvest better.</span></h1>
+
+        <p class="hero-description">
+          AgriMama is an AI-powered farming companion created to support women
+          in agriculture. We bring practical guidance and simple farm-management
+          tools together to help women farmers make informed decisions, care for
+          their crops and work towards better yields.
+        </p>
+
+        <div class="hero-actions">
+          <a class="primary-button" href="/login">
+            Get started
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              <path d="M4 10h11M10 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <span class="action-note">Practical support for every growing season.</span>
+        </div>
+
+        <div class="trust-line">
+          <span class="trust-icon" aria-hidden="true">✦</span>
+          Built around the people who grow our food
+        </div>
       </div>
 
-      <section class="welcome-card">
-        <div class="welcome-content">
-          <span class="welcome-tag">WELCOME TO AGRIMAMA</span>
-          <h2>Empowering farmers through better information.</h2>
-          <p>
-            A connected platform for farmer support, crop monitoring,
-            and timely agricultural guidance.
-          </p>
-          <div class="welcome-location">
-            <Sprout size={17} />
-            Starting with maize farmers in Homa Bay, Kenya
+      <div class="hero-visual">
+        <div class="image-frame">
+          <img
+            src="/images/agrimama-farmer-hero.png"
+            alt="A woman farmer tending leafy green crops in her field"
+          />
+          <div class="image-shade"></div>
+          <div class="image-caption">
+            <span class="caption-mark">✳</span>
+            <span>
+              <strong>Rooted in your success</strong>
+              <small>Growing stronger, together.</small>
+            </span>
           </div>
         </div>
-        <div class="welcome-decoration">
-          <Sprout size={150} strokeWidth={0.8} />
-        </div>
-      </section>
-
-      <section class="stats-grid" aria-label="Platform statistics">
-        {#each stats as stat}
-          <div class="stat-card">
-            <div class="stat-header">
-              <div class="stat-icon">
-                <stat.icon size={21} strokeWidth={1.8} />
-              </div>
-              <ArrowUpRight size={17} class="stat-arrow" />
-            </div>
-            <div class="stat-value">—</div>
-            <div class="stat-label">{stat.label}</div>
-            <div class="stat-note">Awaiting API connection</div>
-          </div>
-        {/each}
-      </section>
-
-      <div class="lower-grid">
-        <section class="panel">
-          <div class="panel-heading">
-            <div>
-              <h3>Recent farmer activity</h3>
-              <p>Incoming observations and advisory interactions</p>
-            </div>
-          </div>
-
-          <div class="empty-state">
-            <div class="empty-icon"><ClipboardList size={27} /></div>
-            <strong>Activity will appear here</strong>
-            <p>We'll load farmer observations from your existing AgriMama API.</p>
-          </div>
-        </section>
-
-        <section class="panel">
-          <div class="panel-heading">
-            <div>
-              <h3>Platform channels</h3>
-              <p>Messaging integration status</p>
-            </div>
-          </div>
-
-          <div class="channel-list">
-            <div class="channel">
-              <div class="channel-icon sms"><MessageCircle size={21} /></div>
-              <div class="channel-info">
-                <strong>SMS</strong>
-                <small>Africa's Talking Sandbox</small>
-              </div>
-              <span class="channel-status ready">Tested</span>
-            </div>
-
-            <div class="channel">
-              <div class="channel-icon whatsapp"><MessageCircle size={21} /></div>
-              <div class="channel-info">
-                <strong>WhatsApp</strong>
-                <small>Meta Cloud API</small>
-              </div>
-              <span class="channel-status pending">Pending verification</span>
-            </div>
-          </div>
-        </section>
+        <div class="visual-orbit orbit-one"></div>
+        <div class="visual-orbit orbit-two"></div>
+        <div class="leaf-decoration" aria-hidden="true">✳</div>
       </div>
-    </main>
-  </div>
+    </section>
+
+    <section class="benefits" aria-label="How AgriMama helps">
+      <div class="benefits-intro">
+        <span>FARM WITH CONFIDENCE</span>
+        <h2>Small steps.<br />Stronger harvests.</h2>
+      </div>
+
+      {#each highlights as item}
+        <article class="benefit">
+          <span class="benefit-number">{item.number}</span>
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </article>
+      {/each}
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>AgriMama</span>
+    <span>Growing knowledge. Growing opportunity.</span>
+  </footer>
+
+  <a class="ask-button" href="/login" aria-label="Ask AgriMama — login to get started">
+    <span class="ask-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3 2v-5.2A7.5 7.5 0 1 1 20 11.5Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8 11.5h.01M12.5 11.5h.01M17 11.5h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span>Ask AgriMama</span>
+    <span class="ask-arrow" aria-hidden="true">↗</span>
+  </a>
 </div>
 
 <style>
-  :global(*) { box-sizing: border-box; }
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(html) {
+    min-width: 320px;
+    background: #f7f9f6;
+  }
+
   :global(body) {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f7f9f6;
-    color: #233329;
+    color: #263b2d;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
-  :global(button), :global(a) { font: inherit; }
 
-  .app-shell { display: flex; min-height: 100vh; }
-  .sidebar {
-    width: 258px; flex-shrink: 0; background: #fff;
-    border-right: 1px solid #e7ede7; display: flex;
-    flex-direction: column; min-height: 100vh;
-    position: sticky; top: 0; height: 100vh;
+  .landing {
+    min-height: 100vh;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 80% 17%, rgba(219, 235, 215, .5), transparent 27rem),
+      #f7f9f6;
   }
-  .brand {
-    padding: 29px 21px 32px; display: flex;
-    align-items: center; gap: 11px;
-  }
-  .brand-icon {
-    width: 43px; height: 43px; display: grid; place-items: center;
-    border-radius: 13px; background: #166b45; color: white;
-  }
-  .brand strong { font-size: 21px; letter-spacing: -0.7px; display: block; }
-  .brand small { color: #819086; font-size: 10px; }
-  .nav-caption {
-    color: #a0aaa2; font-size: 10px; letter-spacing: 1.5px;
-    font-weight: 700; padding: 0 27px 12px;
-  }
-  nav { padding: 0 12px; display: grid; gap: 4px; }
-  nav a {
-    display: flex; align-items: center; gap: 13px; padding: 12px 15px;
-    color: #637269; text-decoration: none; border-radius: 9px;
-    font-size: 13px; font-weight: 500;
-  }
-  nav a:hover { background: #f3f7f3; color: #166b45; }
-  nav a.active { background: #e8f3eb; color: #176a45; font-weight: 700; }
-  .sidebar-footer {
-    margin: auto 15px 20px; padding: 16px 13px;
-    border-radius: 12px; background: #f0f6ed;
-    display: flex; gap: 10px; align-items: flex-start;
-  }
-  .footer-icon { color: #4b8c4d; }
-  .sidebar-footer strong { font-size: 12px; }
-  .sidebar-footer p {
-    margin: 5px 0 0; color: #839184; font-size: 11px; line-height: 1.5;
-  }
-  .main-area { min-width: 0; flex: 1; }
+
   .topbar {
-    height: 75px; padding: 0 36px; display: flex; align-items: center;
-    justify-content: space-between; background: white;
-    border-bottom: 1px solid #e8ede8;
+    width: min(1240px, calc(100% - 64px));
+    height: 88px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(43, 91, 57, .09);
   }
-  .breadcrumb { font-size: 13px; color: #7b897f; }
-  .breadcrumb span { padding: 0 9px; color: #b4bdb5; }
-  .topbar-right { display: flex; align-items: center; gap: 19px; }
-  .environment {
-    background: #f1f6f1; color: #54755c;
-    padding: 8px 12px; border-radius: 7px; font-size: 11px;
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #1f5938;
+    text-decoration: none;
   }
-  .avatar {
-    height: 36px; width: 36px; background: #d9e9da;
-    color: #276a43; border-radius: 50%; display: grid;
-    place-items: center; font-size: 12px; font-weight: 700;
+
+  .brand-mark {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border-radius: 14px;
+    background: #e5f0e4;
   }
-  .content { padding: 36px; max-width: 1550px; margin: auto; }
-  .page-heading {
-    display: flex; align-items: flex-end; justify-content: space-between;
-    gap: 20px; margin-bottom: 28px;
+
+  .brand-mark svg {
+    width: 30px;
+    height: 30px;
   }
+
+  .brand-name {
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -1.1px;
+  }
+
+  .brand-name span {
+    color: #7a9c54;
+  }
+
+  .login-button,
+  .primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+
+  .login-button {
+    min-height: 44px;
+    padding: 0 19px;
+    border: 1px solid #d6e3d5;
+    border-radius: 999px;
+    color: #285d3c;
+    background: rgba(255,255,255,.72);
+    font-size: 14px;
+  }
+
+  .login-button:hover {
+    background: #edf4eb;
+    transform: translateY(-1px);
+  }
+
+  .login-button svg,
+  .primary-button svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  main {
+    width: min(1240px, calc(100% - 64px));
+    margin: 0 auto;
+  }
+
+  .hero {
+    min-height: 590px;
+    padding: 64px 0 72px;
+    display: grid;
+    grid-template-columns: .92fr 1.08fr;
+    align-items: center;
+    gap: 58px;
+  }
+
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+    padding: 8px 0 18px;
+  }
+
   .eyebrow {
-    color: #4e9366; font-size: 10px; font-weight: 800;
-    letter-spacing: 1.6px; margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 24px;
+    color: #63845f;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2.2px;
   }
-  h1 { font-size: 30px; letter-spacing: -1.2px; margin: 0 0 10px; }
-  .page-heading p { margin: 0; color: #849087; font-size: 13px; line-height: 1.6; }
-  .status-pill {
-    background: #edf6ed; color: #467e50; border: 1px solid #d9ebdb;
-    border-radius: 30px; padding: 9px 13px; white-space: nowrap;
+
+  .eyebrow-line {
+    width: 29px;
+    height: 2px;
+    border-radius: 2px;
+    background: #8ba96d;
+  }
+
+  h1 {
+    margin: 0;
+    color: #203c2b;
+    font-size: clamp(48px, 5.5vw, 72px);
+    font-weight: 800;
+    letter-spacing: -3.8px;
+    line-height: 1.04;
+  }
+
+  h1 span {
+    color: #6d914f;
+  }
+
+  .hero-description {
+    max-width: 485px;
+    margin: 25px 0 30px;
+    color: #68786d;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .primary-button {
+    min-height: 54px;
+    padding: 0 24px;
+    border-radius: 12px;
+    background: #28794b;
+    box-shadow: 0 9px 20px rgba(40, 121, 75, .17);
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .primary-button:hover {
+    background: #1f673e;
+    box-shadow: 0 12px 24px rgba(40, 121, 75, .24);
+    transform: translateY(-2px);
+  }
+
+  .action-note {
+    color: #89968c;
     font-size: 11px;
   }
-  .status-dot {
-    display: inline-block; width: 7px; height: 7px;
-    background: #66a46c; border-radius: 50%; margin-right: 5px;
-  }
-  .welcome-card {
-    background: linear-gradient(110deg, #155e40, #237d50);
-    border-radius: 16px; color: white; padding: 32px 36px;
-    position: relative; overflow: hidden; min-height: 215px;
-    display: flex; align-items: center;
-  }
-  .welcome-content { position: relative; z-index: 1; max-width: 650px; }
-  .welcome-tag {
-    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
-    color: #b9e6c7;
-  }
-  .welcome-card h2 {
-    font-size: 25px; line-height: 1.3; letter-spacing: -0.6px;
-    max-width: 490px; margin: 14px 0 10px;
-  }
-  .welcome-card p { font-size: 12px; line-height: 1.7; color: #d4ecda; }
-  .welcome-location {
-    margin-top: 20px; display: flex; align-items: center;
-    gap: 8px; color: #d6f0da; font-size: 11px;
-  }
-  .welcome-decoration {
-    position: absolute; right: 45px; top: 25px;
-    opacity: 0.15; transform: rotate(-15deg);
-  }
-  .stats-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 17px; margin: 24px 0;
-  }
-  .stat-card {
-    background: white; border: 1px solid #e9eee9;
-    border-radius: 13px; padding: 21px;
-  }
-  .stat-header { display: flex; justify-content: space-between; align-items: center; }
-  .stat-icon {
-    width: 42px; height: 42px; border-radius: 11px;
-    background: #edf6ee; color: #28794b; display: grid; place-items: center;
-  }
-  .stat-arrow { color: #b5c1b7; }
-  .stat-value {
-    margin-top: 23px; font-size: 29px; font-weight: 700;
-    letter-spacing: -1px;
-  }
-  .stat-label { margin-top: 6px; font-size: 12px; font-weight: 700; }
-  .stat-note { margin-top: 8px; font-size: 11px; color: #a1ada3; }
-  .lower-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
-  .panel {
-    background: white; border: 1px solid #e9eee9;
-    border-radius: 13px; padding: 24px;
-  }
-  .panel-heading h3 { margin: 0 0 7px; font-size: 15px; }
-  .panel-heading p { margin: 0; font-size: 11px; color: #98a49a; }
-  .empty-state {
-    min-height: 215px; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; text-align: center;
-  }
-  .empty-icon {
-    width: 56px; height: 56px; border-radius: 15px;
-    background: #f1f7f1; color: #7ca783;
-    display: grid; place-items: center; margin-bottom: 13px;
-  }
-  .empty-state strong { font-size: 12px; }
-  .empty-state p { max-width: 260px; color: #9ba79e; font-size: 11px; line-height: 1.6; }
-  .channel-list { margin-top: 23px; display: grid; gap: 15px; }
-  .channel {
-    display: flex; align-items: center; gap: 11px;
-    padding: 13px; border: 1px solid #edf0ed; border-radius: 10px;
-  }
-  .channel-icon {
-    width: 39px; height: 39px; display: grid; place-items: center;
-    border-radius: 9px;
-  }
-  .sms { color: #3876a1; background: #edf5fa; }
-  .whatsapp { color: #24824c; background: #e9f7ed; }
-  .channel-info { flex: 1; min-width: 0; }
-  .channel-info strong { display: block; font-size: 12px; }
-  .channel-info small { color: #a0aaa2; font-size: 10px; }
-  .channel-status {
-    font-size: 10px; padding: 6px 8px; border-radius: 6px;
-    white-space: nowrap;
-  }
-  .ready { color: #2b8651; background: #eaf7ed; }
-  .pending { color: #a47822; background: #fff5e1; }
-  .menu-button, .close-sidebar {
-    display: none; border: 0; background: transparent;
-    cursor: pointer; color: #28563c;
-  }
-  .overlay { display: none; }
 
-  @media (max-width: 1150px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
-    .lower-grid { grid-template-columns: 1fr; }
+  .trust-line {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 42px;
+    color: #879489;
+    font-size: 12px;
+    font-weight: 500;
   }
-  @media (max-width: 800px) {
-    .sidebar {
-      position: fixed; z-index: 30; transform: translateX(-100%);
-      transition: transform 0.2s; box-shadow: 0 0 25px #00000012;
-    }
-    .sidebar.open { transform: translateX(0); }
-    .overlay {
-      display: block; position: fixed; inset: 0;
-      background: #0007; z-index: 20; border: 0;
-    }
-    .menu-button, .close-sidebar { display: block; }
-    .close-sidebar { margin-left: auto; }
-    .topbar { padding: 0 20px; justify-content: flex-start; gap: 16px; }
-    .topbar-right { margin-left: auto; }
-    .content { padding: 24px 18px; }
-    .page-heading { align-items: flex-start; flex-direction: column; }
-    .welcome-card { padding: 27px 23px; }
-    .welcome-card h2 { font-size: 21px; }
-    .welcome-decoration { right: -45px; }
+
+  .trust-icon {
+    color: #86a65f;
+    font-size: 18px;
   }
-  @media (max-width: 480px) {
-    .stats-grid { grid-template-columns: 1fr; }
-    .environment, .status-pill { display: none; }
-    .breadcrumb { font-size: 11px; }
+
+  .hero-visual {
+    position: relative;
+    min-width: 0;
+    padding: 12px 12px 25px 0;
+  }
+
+  .image-frame {
+    position: relative;
+    z-index: 1;
+    height: 430px;
+    overflow: hidden;
+    border: 9px solid rgba(255,255,255,.86);
+    border-radius: 30px 110px 30px 30px;
+    background: #dce9d7;
+    box-shadow: 0 25px 65px rgba(43, 78, 49, .14);
+  }
+
+  .image-frame img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: 62% center;
+  }
+
+  .image-shade {
+    position: absolute;
+    inset: 45% 0 0;
+    background: linear-gradient(transparent, rgba(17, 42, 25, .58));
+  }
+
+  .image-caption {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+    left: 24px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    color: #fff;
+  }
+
+  .caption-mark {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.42);
+    border-radius: 50%;
+    background: rgba(255,255,255,.15);
+    font-size: 21px;
+  }
+
+  .image-caption strong,
+  .image-caption small {
+    display: block;
+  }
+
+  .image-caption strong {
+    font-size: 14px;
+  }
+
+  .image-caption small {
+    margin-top: 4px;
+    color: rgba(255,255,255,.8);
+    font-size: 11px;
+  }
+
+  .visual-orbit {
+    position: absolute;
+    border: 1px solid rgba(123, 157, 95, .25);
+    border-radius: 50%;
+  }
+
+  .orbit-one {
+    width: 125px;
+    height: 125px;
+    top: -24px;
+    right: -24px;
+  }
+
+  .orbit-two {
+    width: 78px;
+    height: 78px;
+    top: 0;
+    right: 0;
+  }
+
+  .leaf-decoration {
+    position: absolute;
+    z-index: 2;
+    left: -25px;
+    bottom: 0;
+    display: grid;
+    width: 58px;
+    height: 58px;
+    place-items: center;
+    border: 7px solid #f7f9f6;
+    border-radius: 20px;
+    background: #dcebd7;
+    color: #5c884b;
+    font-size: 27px;
+  }
+
+  .benefits {
+    display: grid;
+    grid-template-columns: 1.05fr repeat(3, 1fr);
+    gap: 30px;
+    padding: 34px 0 42px;
+    border-top: 1px solid #e4ebe3;
+  }
+
+  .benefits-intro > span {
+    color: #7a966c;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+  }
+
+  .benefits-intro h2 {
+    margin: 10px 0 0;
+    color: #294432;
+    font-size: 22px;
+    letter-spacing: -.7px;
+    line-height: 1.2;
+  }
+
+  .benefit {
+    padding: 4px 0 0 20px;
+    border-left: 1px solid #e0e9df;
+  }
+
+  .benefit-number {
+    color: #9aaf8b;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+  }
+
+  .benefit h3 {
+    margin: 10px 0 7px;
+    color: #344b39;
+    font-size: 14px;
+    font-weight: 750;
+  }
+
+  .benefit p {
+    max-width: 210px;
+    margin: 0;
+    color: #849087;
+    font-size: 11px;
+    line-height: 1.65;
+  }
+
+  .footer {
+    width: min(1240px, calc(100% - 64px));
+    min-height: 58px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e8eee7;
+    color: #9aa49b;
+    font-size: 10px;
+  }
+
+  .footer span:first-child {
+    color: #66836a;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .3px;
+  }
+
+  .ask-button {
+    position: fixed;
+    right: 28px;
+    bottom: 24px;
+    z-index: 20;
+    display: inline-flex;
+    min-height: 54px;
+    align-items: center;
+    gap: 11px;
+    padding: 0 19px 0 13px;
+    border: 1px solid #1d6b40;
+    border-radius: 999px;
+    background: #28794b;
+    box-shadow: 0 10px 28px rgba(28, 87, 49, .25);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 750;
+    text-decoration: none;
+    transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+
+  .ask-button:hover {
+    transform: translateY(-3px);
+    background: #1f673e;
+    box-shadow: 0 14px 32px rgba(28, 87, 49, .3);
+  }
+
+  .ask-icon {
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,.16);
+  }
+
+  .ask-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .ask-arrow {
+    margin-left: 2px;
+    color: #cfe5d1;
+    font-size: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      min-height: auto;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      padding: 58px 0 62px;
+    }
+
+    h1 {
+      font-size: clamp(43px, 6vw, 60px);
+      letter-spacing: -2.7px;
+    }
+
+    .image-frame {
+      height: 360px;
+      border-top-right-radius: 82px;
+    }
+
+    .benefits {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .benefits-intro {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .topbar,
+    main,
+    .footer {
+      width: calc(100% - 40px);
+    }
+
+    .topbar {
+      height: 72px;
+    }
+
+    .brand-mark {
+      width: 37px;
+      height: 37px;
+    }
+
+    .brand-name {
+      font-size: 21px;
+    }
+
+    .login-button {
+      min-height: 40px;
+      padding: 0 15px;
+    }
+
+    .hero {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 34px;
+      padding: 48px 0 52px;
+    }
+
+    .hero-copy {
+      padding: 0;
+    }
+
+    .eyebrow {
+      margin-bottom: 18px;
+      font-size: 9px;
+      letter-spacing: 1.8px;
+    }
+
+    h1 {
+      font-size: clamp(46px, 12vw, 61px);
+      letter-spacing: -2.8px;
+    }
+
+    .hero-description {
+      margin: 19px 0 24px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .primary-button {
+      min-height: 50px;
+    }
+
+    .trust-line {
+      margin-top: 25px;
+      font-size: 11px;
+    }
+
+    .hero-visual {
+      padding: 4px 7px 18px 0;
+    }
+
+    .image-frame {
+      height: 310px;
+      border-width: 6px;
+      border-radius: 24px 76px 24px 24px;
+    }
+
+    .image-frame img {
+      object-position: 60% center;
+    }
+
+    .image-caption {
+      right: 15px;
+      bottom: 16px;
+      left: 15px;
+    }
+
+    .leaf-decoration {
+      left: -12px;
+      width: 48px;
+      height: 48px;
+    }
+
+    .benefits {
+      grid-template-columns: 1fr;
+      gap: 22px;
+      padding: 28px 0 34px;
+    }
+
+    .benefits-intro {
+      grid-column: auto;
+    }
+
+    .benefit {
+      padding: 0 0 0 15px;
+    }
+
+    .benefit p {
+      max-width: 100%;
+    }
+
+    .footer {
+      min-height: 64px;
+      gap: 12px;
+      font-size: 9px;
+    }
+
+    .ask-button {
+      right: 15px;
+      bottom: 15px;
+      min-height: 49px;
+      padding: 0 15px 0 10px;
+      font-size: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      scroll-behavior: auto !important;
+      transition-duration: .01ms !important;
+      animation-duration: .01ms !important;
+    }
   }
 </style>

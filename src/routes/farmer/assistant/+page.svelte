@@ -316,7 +316,7 @@
   .assistant-page {
     width: min(100%, 1120px);
     margin: 0 auto;
-    padding: 34px 38px 42px;
+    padding: 30px 32px 40px;
     color: #34483a;
   }
 
@@ -330,7 +330,7 @@
 
   .eyebrow {
     margin: 0 0 8px;
-    color: #7b987f;
+    color: #77927c;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 1.5px;
@@ -338,8 +338,8 @@
 
   h1 {
     margin: 0;
-    color: #28583a;
-    font-size: clamp(25px, 3vw, 32px);
+    color: #263b2d;
+    font-size: 27px;
     font-weight: 800;
     letter-spacing: -0.8px;
   }
@@ -347,7 +347,7 @@
   .intro {
     max-width: 650px;
     margin: 9px 0 0;
-    color: #7a887d;
+    color: #859188;
     font-size: 13px;
     line-height: 1.7;
   }
@@ -361,7 +361,7 @@
     border: 1px solid #dce8dd;
     border-radius: 9px;
     background: #fff;
-    color: #36734a;
+    color: #28794b;
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
@@ -381,7 +381,7 @@
     margin-bottom: 20px;
     border: 1px solid #e2eee2;
     border-radius: 11px;
-    background: #f4f9f3;
+    background: #f7f9f6;
   }
 
   .notice-icon {
@@ -392,18 +392,18 @@
     height: 38px;
     border-radius: 10px;
     background: #e4f1e3;
-    color: #37804c;
+    color: #28794b;
   }
 
   .assistant-notice p {
     margin: 0;
-    color: #738276;
-    font-size: 11px;
+    color: #526357;
+    font-size: 12px;
     line-height: 1.65;
   }
 
   .assistant-notice strong {
-    color: #3d6245;
+    color: #34483a;
   }
 
   .chat-panel {
@@ -411,7 +411,7 @@
     min-height: 570px;
     flex-direction: column;
     overflow: hidden;
-    border: 1px solid #e8eee7;
+    border: 1px solid #e4ebe3;
     border-radius: 14px;
     background: #fff;
     box-shadow: 0 5px 22px rgb(38 72 45 / 4%);
@@ -435,12 +435,12 @@
     margin-bottom: 18px;
     border-radius: 17px;
     background: #eaf5e9;
-    color: #39804c;
+    color: #28794b;
   }
 
   .welcome-state h2 {
     margin: 0;
-    color: #315b3c;
+    color: #263b2d;
     font-size: 19px;
     font-weight: 750;
   }
@@ -448,7 +448,7 @@
   .welcome-state > p {
     max-width: 440px;
     margin: 9px 0 24px;
-    color: #89958b;
+    color: #909b92;
     font-size: 12px;
     line-height: 1.7;
   }
@@ -466,10 +466,10 @@
     gap: 9px;
     min-height: 48px;
     padding: 11px 13px;
-    border: 1px solid #e8eee7;
+    border: 1px solid #e4ebe3;
     border-radius: 9px;
     background: #fff;
-    color: #637768;
+    color: #526357;
     font-size: 11px;
     line-height: 1.5;
     text-align: left;
@@ -515,7 +515,7 @@
     height: 34px;
     border-radius: 11px;
     background: #e9f3e8;
-    color: #347348;
+    color: #28794b;
   }
 
   .message-avatar.farmer-avatar {
@@ -533,7 +533,7 @@
     align-items: center;
     gap: 9px;
     margin: 1px 0 7px;
-    color: #48634d;
+    color: #34483a;
     font-size: 11px;
   }
 
@@ -541,16 +541,16 @@
     padding: 3px 7px;
     border-radius: 5px;
     background: #f0f5ef;
-    color: #758b77;
+    color: #77927c;
     font-size: 9px;
     font-weight: 650;
   }
 
   .message-bubble {
     padding: 13px 16px;
-    border: 1px solid #e8eee7;
+    border: 1px solid #e4ebe3;
     border-radius: 3px 12px 12px 12px;
-    background: #fbfcfa;
+    background: #f7f9f6;
   }
 
   .farmer-message .message-bubble {
@@ -562,9 +562,9 @@
   .message-bubble p,
   .translation-box p {
     margin: 0;
-    color: #526456;
-    font-size: 12px;
-    line-height: 1.8;
+    color: #34483a;
+    font-size: 13px;
+    line-height: 1.75;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
@@ -580,7 +580,7 @@
     padding: 4px 0;
     border: 0;
     background: transparent;
-    color: #438052;
+    color: #28794b;
     font-size: 10px;
     font-weight: 700;
     cursor: pointer;
@@ -597,7 +597,7 @@
   .translation-box > span {
     display: block;
     margin-bottom: 5px;
-    color: #7d927f;
+    color: #77927c;
     font-size: 9px;
     font-weight: 800;
     letter-spacing: 0.5px;
@@ -624,7 +624,7 @@
     border: 1px solid #dce9dc;
     border-radius: 8px;
     background: #fff;
-    color: #4f7958;
+    color: #28794b;
     font-size: 10px;
     text-align: left;
     cursor: pointer;
@@ -639,9 +639,9 @@
     align-items: center;
     gap: 5px;
     padding: 13px 15px;
-    border: 1px solid #e8eee7;
+    border: 1px solid #e4ebe3;
     border-radius: 3px 12px 12px 12px;
-    background: #fbfcfa;
+    background: #f7f9f6;
   }
 
   .typing-bubble span {
@@ -662,7 +662,7 @@
 
   .typing-bubble em {
     margin-left: 5px;
-    color: #879489;
+    color: #909b92;
     font-size: 10px;
     font-style: normal;
   }
@@ -685,7 +685,7 @@
 
   .composer {
     padding: 16px 20px 18px;
-    border-top: 1px solid #edf1ec;
+    border-top: 1px solid #e4ebe3;
     background: #fff;
   }
 
@@ -696,13 +696,13 @@
     max-height: 150px;
     resize: vertical;
     padding: 12px 13px;
-    border: 1px solid #e3eae2;
+    border: 1px solid #e4ebe3;
     border-radius: 9px;
     outline: none;
-    background: #fcfdfb;
+    background: #f7f9f6;
     color: #3e5543;
-    font: inherit;
-    font-size: 12px;
+    font-family: inherit;
+    font-size: 13px;
     line-height: 1.6;
   }
 
@@ -712,7 +712,7 @@
   }
 
   .composer textarea::placeholder {
-    color: #a3ada4;
+    color: #909b92;
   }
 
   .composer-footer {
@@ -724,7 +724,7 @@
   }
 
   .composer-footer > span {
-    color: #a0aaa1;
+    color: #909b92;
     font-size: 9px;
   }
 
@@ -737,7 +737,7 @@
     padding: 10px 16px;
     border: 0;
     border-radius: 8px;
-    background: #34794a;
+    background: #28794b;
     color: #fff;
     font-size: 11px;
     font-weight: 750;
@@ -746,7 +746,7 @@
   }
 
   .send-button:hover:not(:disabled) {
-    background: #28643c;
+    background: #20633c;
   }
 
   .send-button:disabled {
@@ -759,7 +759,7 @@
     align-items: flex-start;
     gap: 7px;
     margin: 13px 2px 0;
-    color: #929d93;
+    color: #909b92;
     font-size: 10px;
     line-height: 1.6;
   }

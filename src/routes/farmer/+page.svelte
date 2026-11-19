@@ -133,15 +133,6 @@
   </section>
 </div>
 
-<a
-  href="/farmer/assistant"
-  class="floating-assistant"
-  aria-label="Open AgriMama AI Assistant"
-  title="Ask AgriMama"
->
-  <MessageCircle size={25} />
-  <span>Ask AgriMama</span>
-</a>
 
 <style>
   :global(*) { box-sizing: border-box; }
