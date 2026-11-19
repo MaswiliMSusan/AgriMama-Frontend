@@ -387,7 +387,7 @@
 								id="phone"
 								type="tel"
 								bind:value={phone}
-								placeholder="+254712345678"
+								placeholder="+254700000000"
 								autocomplete="tel"
 								required
 							/>
