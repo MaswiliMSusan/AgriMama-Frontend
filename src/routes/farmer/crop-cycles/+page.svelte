@@ -90,7 +90,7 @@
     successMessage = "";
 
     if (!selectedFarmId) {
-      formError = "Select a farm before registering a crop cycle.";
+      formError = "Select a farm before creating a crop cycle.";
       return;
     }
     if (!crop.trim()) {
@@ -119,14 +119,14 @@
         await loadCropCyclesForFarm(selectedFarmId);
       }
 
-      successMessage = response?.message || "Crop cycle registered successfully.";
+      successMessage = response?.message || "Crop cycle created successfully.";
       variety = "";
       plantingDate = "";
       currentStage = "";
       status = "active";
       showForm = false;
     } catch (error) {
-      formError = error instanceof Error ? error.message : "Could not register this crop cycle.";
+      formError = error instanceof Error ? error.message : "Could not create this crop cycle.";
     } finally {
       isSaving = false;
     }
@@ -165,7 +165,7 @@
       <section class="summary-row">
         <div class="summary-card">
           <div class="summary-icon"><MapPinned size={22} /></div>
-          <div><span>YOUR FARMS</span><strong>{farms.length}</strong><small>Registered farms</small></div>
+          <div><span>YOUR FARMS</span><strong>{farms.length}</strong><small>Created farms</small></div>
         </div>
         <div class="summary-card">
           <div class="summary-icon"><Sprout size={22} /></div>
@@ -197,7 +197,7 @@
 
       {#if showForm}
         <section class="form-panel">
-          <div class="panel-title"><div><h3>Register a crop cycle</h3><p>Enter the crop and planting details for the selected farm.</p></div></div>
+          <div class="panel-title"><div><h3>Create a crop cycle</h3><p>Enter the crop and planting details for the selected farm.</p></div></div>
           <form onsubmit={handleCreateCropCycle}>
             <div class="form-grid">
               <label>Farm
@@ -253,7 +253,7 @@
         {:else if errorMessage}
           <div class="state-panel error-state"><AlertCircle size={25} /><strong>We couldn't load your crop cycles</strong><p>{errorMessage}</p><button class="secondary-button" onclick={() => loadFarmData(auth.user?.farmerId)}>Try again</button></div>
         {:else if farms.length === 0}
-          <div class="state-panel empty-state"><div class="empty-icon"><MapPinned size={28} /></div><strong>No farms registered yet</strong><p>Register a farm before adding crop cycles.</p><a class="primary-button" href="/farmer/farms">Go to Farms <ChevronRight size={16} /></a></div>
+          <div class="state-panel empty-state"><div class="empty-icon"><MapPinned size={28} /></div><strong>No farms created yet</strong><p>Create a farm before adding crop cycles.</p><a class="primary-button" href="/farmer/farms">Go to Farms <ChevronRight size={16} /></a></div>
         {:else if cropCycles.length === 0}
           <div class="state-panel empty-state"><div class="empty-icon"><Sprout size={28} /></div><strong>No crop cycles on this farm yet</strong><p>Add the crops you are growing here. You can manage separate crop cycles for each farm.</p><button class="primary-button" onclick={() => (showForm = true)}><Plus size={17} /> Add first crop cycle</button></div>
         {:else}

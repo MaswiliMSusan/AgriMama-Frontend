@@ -81,14 +81,14 @@
     try {
       const response = await api.post("/farms", body);
       if (response?.farm) farms = [response.farm, ...farms];
-      successMessage = response?.message || "Farm registered successfully.";
+      successMessage = response?.message || "Farm ctreated successfully.";
       name = "";
       sizeAcres = "";
       latitude = "";
       longitude = "";
       showForm = false;
     } catch (error) {
-      formError = error instanceof Error ? error.message : "Could not register the farm.";
+      formError = error instanceof Error ? error.message : "Could not create the farm.";
     } finally {
       isSaving = false;
     }
@@ -104,7 +104,7 @@
 
 <svelte:head>
   <title>Farms | AgriMama</title>
-  <meta name="description" content="View and manage your registered farms in AgriMama." />
+  <meta name="description" content="View and manage your created farms in AgriMama." />
 </svelte:head>
 
 <div class="farms-page">
@@ -112,7 +112,7 @@
       <div>
         <p class="eyebrow">YOUR FARMING LAND</p>
         <h2>Farms</h2>
-        <p class="intro-copy">View and manage the farms registered to your AgriMama account.</p>
+        <p class="intro-copy">View and manage the farms created to your AgriMama account.</p>
       </div>
       <button class="primary-button" onclick={() => { showForm = !showForm; formError = ""; }}>
         {#if showForm}<X size={17} /> Cancel{:else}<Plus size={18} /> Add a farm{/if}
@@ -121,7 +121,7 @@
 
     <section class="summary-card">
       <div class="summary-icon"><MapPinned size={22} /></div>
-      <div><span>REGISTERED FARMS</span><strong>{farms.length}</strong><small>{farms.length === 1 ? "farm in your account" : "farms in your account"}</small></div>
+      <div><span>MY FARMS</span><strong>{farms.length}</strong><small>{farms.length === 1 ? "farm in your account" : "farms in your account"}</small></div>
     </section>
 
     {#if successMessage}
@@ -130,7 +130,7 @@
 
     {#if showForm}
       <section class="form-panel">
-        <div class="panel-title"><div><h3>Register a farm</h3><p>Add the details of another farm you manage.</p></div></div>
+        <div class="panel-title"><div><h3>Create a farm</h3><p>Add the details of another farm you manage.</p></div></div>
         <form onsubmit={handleCreateFarm}>
           <div class="form-grid">
             <label>Farm name <span>(optional)</span><input bind:value={name} maxlength="150" placeholder="e.g. Green Valley Farm" /></label>
@@ -145,19 +145,19 @@
     {/if}
 
     <section class="farms-section">
-      <div class="section-heading"><div><h3>Your registered farms</h3><p>Each farm can have its own crops and crop cycles.</p></div><button class="refresh-button" onclick={() => auth.user?.farmerId && loadFarms(auth.user.farmerId)} disabled={isLoading}><RefreshCw size={15} /> Refresh</button></div>
+      <div class="section-heading"><div><h3>Your farms</h3><p>Each farm can have its own crops and crop cycles.</p></div><button class="refresh-button" onclick={() => auth.user?.farmerId && loadFarms(auth.user.farmerId)} disabled={isLoading}><RefreshCw size={15} /> Refresh</button></div>
 
       {#if isLoading}
         <div class="state-panel"><RefreshCw size={24} class="spin" /><strong>Loading your farms...</strong><p>Please wait while we retrieve your farm records.</p></div>
       {:else if errorMessage}
         <div class="state-panel error-state"><AlertCircle size={25} /><strong>We couldn't load your farms</strong><p>{errorMessage}</p><button class="secondary-button" onclick={() => auth.user?.farmerId && loadFarms(auth.user.farmerId)}>Try again</button></div>
       {:else if farms.length === 0}
-        <div class="state-panel empty-state"><div class="empty-icon"><Sprout size={28} /></div><strong>No farms registered yet</strong><p>Register your first farm to start organising its crops, crop cycles and farming advice.</p><button class="primary-button" onclick={() => (showForm = true)}><Plus size={17} /> Register your first farm</button></div>
+        <div class="state-panel empty-state"><div class="empty-icon"><Sprout size={28} /></div><strong>No farms created yet</strong><p>Create your first farm to start organising its crops, crop cycles and farming advice.</p><button class="primary-button" onclick={() => (showForm = true)}><Plus size={17} /> Create your first farm</button></div>
       {:else}
         <div class="farms-grid">
           {#each farms as farm (farm.id)}
             <article class="farm-card">
-              <div class="farm-card-top"><div class="farm-icon"><Sprout size={22} /></div><span class="farm-status">Registered</span></div>
+              <div class="farm-card-top"><div class="farm-icon"><Sprout size={22} /></div><span class="farm-status">Created</span></div>
               <h4>{farm.name || "Unnamed farm"}</h4>
               <div class="farm-detail"><Ruler size={16} /><span>{farm.sizeAcres ? `${Number(farm.sizeAcres).toLocaleString()} acres` : "Farm size not added"}</span></div>
               <div class="farm-detail"><MapPin size={16} /><span>{farm.latitude != null && farm.longitude != null ? `${formatCoordinate(farm.latitude)}, ${formatCoordinate(farm.longitude)}` : "Location coordinates not added"}</span></div>
