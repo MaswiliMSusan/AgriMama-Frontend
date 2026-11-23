@@ -822,4 +822,152 @@
     width: 100%;
   }
 }
+
+
+/* =========================================
+   ACCESSIBILITY: LARGER, EASIER-TO-READ TEXT
+   ========================================= */
+
+.page-content {
+  font-size: 16px;
+}
+
+.page-intro h2 {
+  font-size: 30px;
+}
+
+.page-intro .eyebrow {
+  font-size: 12px;
+}
+
+.page-intro .intro-copy {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.primary-button,
+.secondary-button {
+  font-size: 14px;
+  min-height: 46px;
+  padding-inline: 18px;
+}
+
+.summary-card span {
+  font-size: 12px;
+}
+
+.summary-card strong {
+  font-size: 28px;
+}
+
+.summary-card small {
+  font-size: 13px;
+}
+
+.notice {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.panel-title h3,
+.section-heading h3 {
+  font-size: 20px;
+}
+
+.panel-title p,
+.section-heading p {
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.form-grid label,
+.message-label {
+  font-size: 14px;
+}
+
+.form-grid input,
+.form-grid select,
+.message-label textarea {
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 16px;
+}
+
+.message-label textarea {
+  min-height: 145px;
+}
+
+.message-label small {
+  font-size: 12px;
+}
+
+.refresh-button {
+  min-height: 40px;
+  padding-inline: 14px;
+  font-size: 13px;
+}
+
+.observation-main h4 {
+  font-size: 16px;
+}
+
+.observation-main p {
+  font-size: 13px;
+}
+
+.status-pill {
+  font-size: 12px;
+  padding: 7px 12px;
+}
+
+.observation-text {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.recommendation-preview strong {
+  font-size: 14px;
+}
+
+.recommendation-preview p {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.recommendation-preview small {
+  font-size: 12px;
+}
+
+.text-button {
+  font-size: 13px;
+}
+
+.detail-panel p {
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.state-panel strong {
+  font-size: 16px;
+}
+
+.state-panel p {
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+@media (max-width: 420px) {
+  .page-intro h2 {
+    font-size: 27px;
+  }
+
+  .observation-main h4 {
+    font-size: 15px;
+  }
+
+  .observation-text {
+    font-size: 15px;
+  }
+}
+
 </style>
