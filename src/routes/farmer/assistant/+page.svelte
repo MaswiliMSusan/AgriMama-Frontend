@@ -3,6 +3,8 @@
     Bot,
     Languages,
     MessageCircle,
+    Paperclip,
+    X,
     Plus,
     Send,
     Sparkles,
@@ -13,6 +15,8 @@
 
   let messages = $state([]);
   let draft = $state("");
+  let attachment = $state(null);
+  let attachmentError = $state("");
   let conversationId = $state(null);
   let sending = $state(false);
   let errorMessage = $state("");
@@ -36,6 +40,8 @@
     messages = [];
     conversationId = null;
     draft = "";
+    attachment = null;
+    attachmentError = "";
     errorMessage = "";
     expandedTranslations = {};
   }
@@ -44,11 +50,61 @@
     draft = question;
   }
 
+  function removeAttachment() {
+    attachment = null;
+    attachmentError = "";
+    const input = document.getElementById("assistant-image");
+    if (input) input.value = "";
+  }
+
+  async function handleImageSelected(event) {
+    const file = event.currentTarget.files?.[0];
+    attachmentError = "";
+
+    if (!file) return;
+
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      attachment = null;
+      attachmentError = "Please choose a JPG, PNG or WEBP image.";
+      event.currentTarget.value = "";
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      attachment = null;
+      attachmentError = "The image must be 5 MB or smaller.";
+      event.currentTarget.value = "";
+      return;
+    }
+
+    try {
+      const dataUrl = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Could not read this image."));
+        reader.readAsDataURL(file);
+      });
+
+      attachment = {
+        name: file.name,
+        type: file.type,
+        dataUrl,
+      };
+    } catch (error) {
+      attachment = null;
+      attachmentError = error.message || "Could not read this image.";
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
 
     const messageText = draft.trim();
-    if (!messageText || sending) return;
+    if ((!messageText && !attachment) || sending) return;
+
+    const submittedAttachment = attachment;
+    const submittedText = messageText || "Please analyse this farm image and advise me on what you can see.";
 
     errorMessage = "";
     sending = true;
@@ -60,15 +116,19 @@
       {
         id: farmerMessageId,
         role: "farmer",
-        text: messageText,
+        text: submittedText,
+        image: submittedAttachment?.dataUrl || null,
       },
     ];
 
     try {
       const data = await api.post("/assistant/chat", {
-        message: messageText,
+        message: submittedText,
         conversationId,
         channel: "dashboard",
+        image: submittedAttachment?.dataUrl || null,
+        imageMimeType: submittedAttachment?.type || null,
+        imageName: submittedAttachment?.name || null,
       });
 
       if (!data?.success || !data?.message?.assistant) {
@@ -78,6 +138,10 @@
       }
 
       conversationId = data.conversationId ?? conversationId;
+      attachment = null;
+      attachmentError = "";
+      const imageInput = document.getElementById("assistant-image");
+      if (imageInput) imageInput.value = "";
 
       messages = [
         ...messages,
@@ -198,6 +262,13 @@
               </div>
 
               <div class="message-bubble">
+                {#if message.image}
+                  <img
+                    class="message-image"
+                    src={message.image}
+                    alt="Photo attached to the farmer's question"
+                  />
+                {/if}
                 <p>{message.text}</p>
               </div>
 
@@ -286,12 +357,51 @@
         }}
       ></textarea>
 
+      {#if attachment}
+        <div class="attachment-preview">
+          <img src={attachment.dataUrl} alt="Selected farm photo preview" />
+          <div class="attachment-details">
+            <strong>Photo attached</strong>
+            <span>{attachment.name}</span>
+          </div>
+          <button
+            class="remove-attachment"
+            type="button"
+            onclick={removeAttachment}
+            aria-label="Remove attached photo"
+            disabled={sending}
+          >
+            <X size={16} />
+          </button>
+        </div>
+      {/if}
+
+      {#if attachmentError}
+        <p class="attachment-error" role="alert">{attachmentError}</p>
+      {/if}
+
       <div class="composer-footer">
+        <div class="composer-tools">
+          <label class="attach-button" for="assistant-image">
+            <Paperclip size={16} />
+            <span>Attach photo</span>
+          </label>
+          <input
+            id="assistant-image"
+            class="sr-only"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            capture="environment"
+            onchange={handleImageSelected}
+            disabled={sending}
+          />
+          <span class="attachment-hint">JPG, PNG or WEBP · Max 5 MB</span>
+        </div>
         <span>Enter to send · Shift + Enter for a new line</span>
         <button
           class="send-button"
           type="submit"
-          disabled={!draft.trim() || sending}
+          disabled={(!draft.trim() && !attachment) || sending}
           aria-label="Send question"
         >
           <Send size={17} />
@@ -715,6 +825,112 @@
     color: #909b92;
   }
 
+  .message-image {
+    display: block;
+    width: min(100%, 320px);
+    max-height: 260px;
+    margin-bottom: 9px;
+    border-radius: 9px;
+    object-fit: contain;
+    background: #eef2ed;
+  }
+
+  .attachment-preview {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 8px;
+    margin-top: 12px;
+    border: 1px solid #dce9dc;
+    border-radius: 10px;
+    background: #f7faf6;
+  }
+
+  .attachment-preview img {
+    width: 58px;
+    height: 58px;
+    border-radius: 7px;
+    object-fit: cover;
+  }
+
+  .attachment-details {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .attachment-details strong {
+    color: #34483a;
+    font-size: 12px;
+  }
+
+  .attachment-details span {
+    max-width: 220px;
+    overflow: hidden;
+    color: #849187;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .remove-attachment {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 7px;
+    background: #edf2ec;
+    color: #657468;
+    cursor: pointer;
+  }
+
+  .remove-attachment:hover {
+    background: #f5e8e6;
+    color: #a34e42;
+  }
+
+  .attachment-error {
+    margin: 8px 0 0;
+    color: #a34e42;
+    font-size: 12px;
+  }
+
+  .composer-tools {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .attach-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 7px 11px;
+    border: 1px solid #dce9dc;
+    border-radius: 8px;
+    background: #fff;
+    color: #28794b;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .attach-button:hover {
+    background: #f3f8f2;
+  }
+
+  .attachment-hint {
+    color: #909b92;
+    font-size: 10px;
+  }
+
   .composer-footer {
     display: flex;
     align-items: center;
@@ -823,7 +1039,113 @@
       padding: 12px;
     }
 
-    .composer-footer {
+    .message-image {
+    display: block;
+    width: min(100%, 320px);
+    max-height: 260px;
+    margin-bottom: 9px;
+    border-radius: 9px;
+    object-fit: contain;
+    background: #eef2ed;
+  }
+
+  .attachment-preview {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: fit-content;
+    max-width: 100%;
+    padding: 8px;
+    margin-top: 12px;
+    border: 1px solid #dce9dc;
+    border-radius: 10px;
+    background: #f7faf6;
+  }
+
+  .attachment-preview img {
+    width: 58px;
+    height: 58px;
+    border-radius: 7px;
+    object-fit: cover;
+  }
+
+  .attachment-details {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .attachment-details strong {
+    color: #34483a;
+    font-size: 12px;
+  }
+
+  .attachment-details span {
+    max-width: 220px;
+    overflow: hidden;
+    color: #849187;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .remove-attachment {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border: 0;
+    border-radius: 7px;
+    background: #edf2ec;
+    color: #657468;
+    cursor: pointer;
+  }
+
+  .remove-attachment:hover {
+    background: #f5e8e6;
+    color: #a34e42;
+  }
+
+  .attachment-error {
+    margin: 8px 0 0;
+    color: #a34e42;
+    font-size: 12px;
+  }
+
+  .composer-tools {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+  }
+
+  .attach-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 36px;
+    padding: 7px 11px;
+    border: 1px solid #dce9dc;
+    border-radius: 8px;
+    background: #fff;
+    color: #28794b;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .attach-button:hover {
+    background: #f3f8f2;
+  }
+
+  .attachment-hint {
+    color: #909b92;
+    font-size: 10px;
+  }
+
+  .composer-footer {
       align-items: flex-end;
     }
 
