@@ -1,3 +1,4 @@
+
 <script>
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
@@ -6,7 +7,8 @@
 
 	const auth = getAuthState();
 
-	let activeTab = $state('staff');
+	// Farmers are the default users.
+	let activeTab = $state('farmer');
 	let email = $state('');
 	let password = $state('');
 	let phone = $state('');
@@ -21,10 +23,6 @@
 	let successMessage = $state('');
 	let redirecting = $state(false);
 
-	/**
-	 * Return the dashboard URL for the authenticated role.
-	 * @param {string | undefined} role
-	 */
 	function getHomeRoute(role) {
 		switch (role) {
 			case 'admin':
@@ -42,7 +40,6 @@
 		auth.initialize();
 	});
 
-	// Automatically redirect once authentication succeeds.
 	$effect(() => {
 		const initialized = auth.isInitialized;
 		const authenticatedUser = auth.user;
@@ -60,9 +57,6 @@
 		}
 	});
 
-	/**
-	 * @param {"staff" | "farmer"} tab
-	 */
 	function switchTab(tab) {
 		activeTab = tab;
 		errorMessage = '';
@@ -80,10 +74,6 @@
 		otp = '';
 	}
 
-	/**
-	 * Register a farmer, then request an OTP to verify the phone number.
-	 * @param {SubmitEvent} event
-	 */
 	async function handleFarmerRegistration(event) {
 		event.preventDefault();
 		errorMessage = '';
@@ -108,6 +98,7 @@
 		}
 
 		loading = true;
+
 		try {
 			await api.post('/farmers', {
 				name: normalizedName,
@@ -122,7 +113,6 @@
 			return;
 		}
 
-		// The account is now created. Verify phone ownership before sign-in.
 		try {
 			await auth.requestFarmerOtp(normalizedPhone);
 			otpSent = true;
@@ -136,10 +126,6 @@
 		}
 	}
 
-	/**
-	 * Staff and admin login.
-	 * @param {SubmitEvent} event
-	 */
 	async function handleStaffLogin(event) {
 		event.preventDefault();
 
@@ -154,8 +140,6 @@
 		loading = true;
 
 		try {
-			// The auth store updates the user.
-			// The reactive effect above handles navigation.
 			await auth.staffLogin(email.trim(), password);
 		} catch (error) {
 			errorMessage =
@@ -165,10 +149,6 @@
 		}
 	}
 
-	/**
-	 * Request farmer OTP.
-	 * @param {SubmitEvent} event
-	 */
 	async function handleRequestOtp(event) {
 		event.preventDefault();
 
@@ -178,7 +158,7 @@
 		const normalizedPhone = phone.trim();
 
 		if (!/^\+[1-9]\d{7,14}$/.test(normalizedPhone)) {
-			errorMessage = 'Enter a valid phone number with country code, e.g. +25700000000';
+			errorMessage = 'Enter a valid phone number with country code, e.g. +254700000000';
 			return;
 		}
 
@@ -186,7 +166,6 @@
 
 		try {
 			const response = await auth.requestFarmerOtp(normalizedPhone);
-
 			otpSent = true;
 			successMessage = response.message || 'Your verification code has been requested.';
 		} catch (error) {
@@ -197,10 +176,6 @@
 		}
 	}
 
-	/**
-	 * Verify farmer OTP.
-	 * @param {SubmitEvent} event
-	 */
 	async function handleVerifyOtp(event) {
 		event.preventDefault();
 
@@ -215,8 +190,6 @@
 		loading = true;
 
 		try {
-			// The auth store updates the user.
-			// The reactive effect above redirects to /farmer.
 			await auth.verifyFarmerOtp(phone.trim(), otp.trim());
 		} catch (error) {
 			errorMessage =
@@ -251,18 +224,18 @@
 			<div class="tabs">
 				<button
 					type="button"
-					class:active={activeTab === 'staff'}
-					onclick={() => switchTab('staff')}
-				>
-					Staff / Admin
-				</button>
-
-				<button
-					type="button"
 					class:active={activeTab === 'farmer'}
 					onclick={() => switchTab('farmer')}
 				>
 					Farmer
+				</button>
+
+				<button
+					type="button"
+					class:active={activeTab === 'staff'}
+					onclick={() => switchTab('staff')}
+				>
+					Staff / Admin
 				</button>
 			</div>
 
@@ -317,6 +290,7 @@
 					>
 						Sign in
 					</button>
+
 					<button
 						type="button"
 						class:active={farmerMode === 'register'}
@@ -391,7 +365,7 @@
 								autocomplete="tel"
 								required
 							/>
-							<small> Include your country code. </small>
+							<small>Include your country code.</small>
 						</div>
 
 						<button class="submit-button" type="submit" disabled={loading}>
@@ -402,9 +376,7 @@
 					<form onsubmit={handleVerifyOtp}>
 						<div class="otp-heading">
 							<h3>Verify your phone</h3>
-							<p>
-								Enter the six-digit code sent to {phone}.
-							</p>
+							<p>Enter the six-digit code sent to {phone}.</p>
 						</div>
 
 						<div class="form-group">
@@ -576,9 +548,7 @@
 		background: white;
 		color: #263b2d;
 		font-size: 14px;
-		transition:
-			border-color 0.2s,
-			box-shadow 0.2s;
+		transition: border-color 0.2s, box-shadow 0.2s;
 	}
 
 	.form-group input:focus {
