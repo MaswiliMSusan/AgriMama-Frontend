@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { Search, Sprout, UserRound, Phone, MapPin, Ruler, ChevronLeft, ChevronRight, Eye, RefreshCw, X, Wheat } from "lucide-svelte";
 
-  const API_BASE = (import.meta.env.VITE_API_URL || "http://localhost:7000").replace(/\/$/, "");
+  const API_BASE = (import.meta.env.VITE_API_BASE_URL || "http://localhost:7000").replace(/\/$/, "");
 
   let farms = $state([]);
   let loading = $state(true);

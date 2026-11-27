@@ -17,7 +17,7 @@
   } from "lucide-svelte";
 
   const API_BASE = (
-    import.meta.env.VITE_API_URL || "http://localhost:7000"
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:7000"
   ).replace(/\/$/, "");
 
   let cropCycle = $state(null);

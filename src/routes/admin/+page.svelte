@@ -11,10 +11,10 @@
     Sprout
   } from "lucide-svelte";
 
-  // Set VITE_API_URL in your frontend environment if your backend
+  // Set VITE_API_BASE_URL in your frontend environment if your backend
   // is hosted somewhere other than http://localhost:7000.
   const API_BASE = (
-    import.meta.env.VITE_API_URL || "http://localhost:7000"
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:7000"
   ).replace(/\/$/, "");
 
   let overview = $state(null);
