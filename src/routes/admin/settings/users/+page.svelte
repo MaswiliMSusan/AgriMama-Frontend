@@ -143,7 +143,7 @@
       }
 
       const result = await apiRequest(
-        `/api/admin/users?${params.toString()}`
+        `/admin/users?${params.toString()}`
       );
 
       users = result.users || [];
@@ -233,8 +233,8 @@
       }
 
       const path = editingUser
-        ? `/api/admin/users/${editingUser.id}`
-        : "/api/admin/users";
+        ? `/admin/users/${editingUser.id}`
+        : "/admin/users";
 
       const result = await apiRequest(path, {
         method: editingUser ? "PATCH" : "POST",
@@ -280,7 +280,7 @@
 
     try {
       const result = await apiRequest(
-        `/api/admin/users/${user.id}/${action}`,
+        `/admin/users/${user.id}/${action}`,
         { method: "PATCH" }
       );
 
@@ -311,7 +311,7 @@
 
     try {
       const result = await apiRequest(
-        `/api/admin/users/${passwordUser.id}/password`,
+        `/admin/users/${passwordUser.id}/password`,
         {
           method: "PATCH",
           body: JSON.stringify({

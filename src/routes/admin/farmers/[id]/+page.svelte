@@ -60,7 +60,7 @@
 		errorMessage = '';
 
 		try {
-			const response = await fetch(`${API_BASE}/api/admin/farmers/${farmerId}`, {
+			const response = await fetch(`${API_BASE}/admin/farmers/${farmerId}`, {
 				method: 'GET',
 				credentials: 'include',
 				headers: { Accept: 'application/json' }

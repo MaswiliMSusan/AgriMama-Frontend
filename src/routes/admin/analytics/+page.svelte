@@ -66,7 +66,7 @@
       });
 
       const response = await fetch(
-        `${API_BASE}/api/admin/analytics/overview?${params}`,
+        `${API_BASE}/admin/analytics/overview?${params}`,
         {
           method: "GET",
           credentials: "include",

@@ -104,7 +104,7 @@
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/admin/crop-cycles?${params.toString()}`,
+        `${API_BASE}/admin/crop-cycles?${params.toString()}`,
         {
           method: "GET",
           credentials: "include",

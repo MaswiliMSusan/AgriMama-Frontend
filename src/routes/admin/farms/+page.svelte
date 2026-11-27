@@ -47,7 +47,7 @@
     if (appliedSearch.trim()) params.set("search", appliedSearch.trim());
 
     try {
-      const response = await fetch(`${API_BASE}/api/admin/farms?${params.toString()}`, {
+      const response = await fetch(`${API_BASE}/admin/farms?${params.toString()}`, {
         method: "GET",
         credentials: "include",
         headers: { Accept: "application/json" }

@@ -151,8 +151,8 @@
 
     try {
       const [datasetResult, historyResult] = await Promise.all([
-        fetchJson(`${API_BASE}/api/admin/datasets`),
-        fetchJson(`${API_BASE}/api/admin/datasets/history`)
+        fetchJson(`${API_BASE}/admin/datasets`),
+        fetchJson(`${API_BASE}/admin/datasets/history`)
       ]);
 
       datasets = datasetResult.datasets || [];
@@ -217,7 +217,7 @@
       formData.append("file", selectedFile);
 
       const response = await fetch(
-        `${API_BASE}/api/admin/datasets/upload`,
+        `${API_BASE}/admin/datasets/upload`,
         {
           method: "POST",
           credentials: "include",

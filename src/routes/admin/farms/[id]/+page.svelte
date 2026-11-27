@@ -86,7 +86,7 @@
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/admin/farms/${encodeURIComponent(farmId)}`,
+        `${API_BASE}/admin/farms/${encodeURIComponent(farmId)}`,
         {
           method: "GET",
           credentials: "include",

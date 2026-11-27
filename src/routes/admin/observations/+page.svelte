@@ -114,7 +114,7 @@
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/admin/observations?${params.toString()}`,
+        `${API_BASE}/admin/observations?${params.toString()}`,
         {
           method: "GET",
           credentials: "include",

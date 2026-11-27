@@ -77,7 +77,7 @@
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/admin/dashboard/overview`,
+        `${API_BASE}/admin/dashboard/overview`,
         {
           method: "GET",
           credentials: "include",
@@ -106,7 +106,7 @@
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/admin/dashboard/engagement?days=${days}`,
+        `${API_BASE}/admin/dashboard/engagement?days=${days}`,
         {
           method: "GET",
           credentials: "include",

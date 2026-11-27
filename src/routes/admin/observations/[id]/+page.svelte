@@ -91,7 +91,7 @@
 
     try {
       const response = await fetch(
-        `${API_BASE}/api/admin/observations/${encodeURIComponent(id)}`,
+        `${API_BASE}/admin/observations/${encodeURIComponent(id)}`,
         {
           method: "GET",
           credentials: "include",

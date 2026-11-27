@@ -86,7 +86,7 @@ let actionError = $state('');
 		if (consent !== '') params.set('consent', consent);
 
 		try {
-			const response = await fetch(`${API_BASE}/api/admin/farmers?${params.toString()}`, {
+			const response = await fetch(`${API_BASE}/admin/farmers?${params.toString()}`, {
 				method: 'GET',
 				credentials: 'include',
 				headers: { Accept: 'application/json' }
@@ -158,7 +158,7 @@ let actionError = $state('');
 		createSuccess = '';
 
 		try {
-			const response = await fetch(`${API_BASE}/api/admin/farmers`, {
+			const response = await fetch(`${API_BASE}/admin/farmers`, {
 				method: 'POST',
 				credentials: 'include',
 				headers: {
@@ -216,7 +216,7 @@ let actionError = $state('');
 
 		try {
 			const response = await fetch(
-				`${API_BASE}/api/admin/farmers/${farmer.id}/${action}`,
+				`${API_BASE}/admin/farmers/${farmer.id}/${action}`,
 				{
 					method: 'PATCH',
 					credentials: 'include',
